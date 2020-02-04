@@ -58,6 +58,7 @@ class DenseLayer:
             self.activation = sigmoid
 
     def cal_gradient(self):
+        #activation may be sigmoid or else linear
         if self.activation == sigmoid:
             gradient_mat = np.dot(self.output, (1 - self.output).T)
             gradient_activation = np.diag(np.diag(gradient_mat))
@@ -93,7 +94,7 @@ class DenseLayer:
         # -----------the Negative gradient direction --------
         self.weight = self.weight - self.learn_rate * self.gradient_weight
         self.bias = self.bias - self.learn_rate * self.gradient_bias.T
-
+        #updates the weights and bias according to learning rate(0.3 if undefined)
         return self.gradient
 
 
@@ -110,7 +111,8 @@ class BPNN:
 
     def add_layer(self, layer):
         self.layers.append(layer)
-
+        #add layers to existing Neural Network
+      
     def build(self):
         for i, layer in enumerate(self.layers[:]):
             if i < 1:
@@ -165,6 +167,7 @@ class BPNN:
         return self.loss, self.loss_gradient
 
     def plot_loss(self):
+        #plotting the loss function
         if self.ax_loss.lines:
             self.ax_loss.lines.remove(self.ax_loss.lines[0])
         self.ax_loss.plot(self.train_mse, "r-")
